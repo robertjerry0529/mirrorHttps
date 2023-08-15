@@ -1,22 +1,43 @@
-#MIrrorHttps 说明
+# MirrorHttps 
 
-传统设备对https的内容进行监控，可采集的信息非常有限；本项目将本地https进行解密，通过https代理，实现内容解析，将明文内容镜像给其他设备，方便其他设备进行内容分析和内容采集。
+Traditional devices monitor HTTPS content, and the information they can collect is very limited. In this project, local HTTPS is decrypted through HTTPS proxy, and plaintext content is mirrored to other devices to facilitate content analysis and content collection, the mirrored packet carry the original address information.
 
+# deploy
+MIrrorHttps uses the switch mirroring interface to mirror the message to MirrorHttps. MirrorHttps returns the response message to the network through the re-injection interface. The returned message is considered to be the response message of the original target server. The text is returned to the requesting host. Looking at the IP level, the requesting host will think that this is the reply message of the original target host, thereby establishing a tcp connection, but actually establishing a communication link between the requesting host and MirrorHttps.
+After MirrorHttps obtains the link, it implements https message service, parses the client request, and initiates a request to the real target server through the local client proxy, and returns the obtained response content to the original requesting client.
 
-#部署
-MIrrorHttps采用交换机镜像接口，将报文镜像到MirrorHttps中，MirrorHttps通过回注接口，将回应报文返回到网络中，返回的报文被认为是原目标服务器的响应报文，Gateway通过交换机将该报文返回给请求主机，请求主机在IP层面看，会认为这是原目标主机的回复报文，从而建立tcp连接，但是实际是在请求主机与MirrorHttps之间建立通信链接。
-MirrorHttps获得该链接后，实现https报文服务，解析客户端请求，并且通过本地客户端代理向真正的目标服务器发起请求，并且将获得的响应内容返回给原始请求客户端。
+deploy:![alt 部署图](https://github.com/robertjerry0529/mirrorHttps/blob/main/mirrorhttps.png?raw=true)
 
-部署图:![alt 部署图](https://www.coonote.com)
+# Compile：
+## install dpdk
+cd /home
+wget http://fast.dpdk.org/rel/dpdk-19.11.14.tar.xz
+tar xvf dpdk-19.11.14.tar.xz
+cd dpdk-19.11.14
+yum install -y make gcc gcc-c++  kernel-devel kernel-headers kernel.x86_64 net-tools
+yum install -y numactl-devel.x86_64 numactl-libs.x86_64
+yum install -y libpcap.x86_64 libpcap-devel.x86_64
+yum install -y pciutils wget xz 
+reboot
 
-#使用：
-git clone  .....
+cd /home/dpdk-19.11.14
+export RTE_SDK=/home/dpdk-19.11.14
+export DESTDIR=/dpdk
+make config T=x86_64-native-linuxapp-gcc prefix=/dpdk 
+make j=4
+make install
 
-make dpdk
-make netmap
-make service
+## install redis
+yum install -y redis
+systemctl enable redis
+systemctl start redis
 
-配置:
+## install mirrorHttps
+git clone https://github.com/robertjerry0529/mirrorHttps.git
+cd mirrorHttps
+make 
+
+# configuration:
 obj/install.sh中，instruct mirror interface and inject interface，which will be taken over by dpdk；
 netmap use private ip pool whick may not conflict with your local network，generally not need modify。
 service config ：give mirrorHttps a ip address
