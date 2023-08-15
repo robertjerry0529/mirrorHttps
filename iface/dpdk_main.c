@@ -353,9 +353,7 @@ kni_ingress(struct kni_port_params *p)
 			}
 		}
 		ntotal += nb_rx;
-		//just free kni free_q
-		rte_kni_tx_burst(p->kni[i], NULL, 0); 
-		rte_kni_rx_burst(p->kni[i], NULL, 0);
+		
 		rte_kni_handle_request(p->kni[i]);
 		//获取需要发送到kni的报文
 		nb_tx = kni_get_pkt_from_send_list(pkts_output,PKT_BURST_SZ);
@@ -422,8 +420,6 @@ kni_egress(struct kni_port_params *p)
 			}
 		}
 
-		//freeq 
-		rte_kni_tx_burst(p->kni[i], NULL, 0); 
 		
 		//获取需要发送到eth的报文
 		nb_tx =netmap_pkt_retrieve_output(pkts_output,PKT_BURST_SZ);
