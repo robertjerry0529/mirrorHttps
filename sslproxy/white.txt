@@ -1,0 +1,35 @@
+self.events.data.microsoft.com
+visualstudio.com
+**.default.exp-tas.com
+**.data.microsoft.com
+**.optimizationguide-pa.googleapis.com
+**.self.events.data.microsoft.com
+
+测试记录:
+source insight:无internet 访问
+
+visual studio code:
+
+gallerycdn.azure.cn
+gallerycdn.azure.cn
+gallery.vsassets.io
+visualstudio.com
+
+
+xcode调试go项目，无法启动调试
+运行go build，控制台挂死
+
+
+
+idea64.exe：
+
+
+
+visual studio :
+devenv.exe ，无法运行
+
+
+wps:
+可以运行
+
+

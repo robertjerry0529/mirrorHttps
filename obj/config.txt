@@ -1,0 +1,14 @@
+###
+# config model
+#
+#
+
+
+interface mirror inside 00:0c:29:2f:bb:f8
+interface reinject inside 00:0c:29:2f:bb:f8
+
+
+ip address 192.168.75.101 255.255.255.0
+netmap reinject gateway 192.168.75.1
+service ip 192.168.75.101
+netmap pool 10.0.0.0

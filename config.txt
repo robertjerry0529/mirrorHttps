@@ -1,0 +1,19 @@
+###
+# config model
+#
+#
+#deploy mode inline
+#interface service inside eth0
+#interface service outside eth0
+#interface reinjection inside eth1
+#interface reinjection outside eth1
+
+deploy mode bypass
+interface service inside eth0
+#interface reinject inside eth1
+#interface reinject outside eth1
+
+ip address 192.168.75.101 255.255.255.0
+
+service ip 192.168.75.101
+netmap pool 10.0.0.0

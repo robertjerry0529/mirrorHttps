@@ -1,0 +1,6 @@
+#ifndef BLOCK_HEAD
+#define BLOCK_HEAD
+
+void ipservice_block_free(void * bp);
+
+#endif

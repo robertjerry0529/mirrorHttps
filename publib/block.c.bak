@@ -1,0 +1,35 @@
+
+
+void ipservice_block_free(void * bp){
+	free(bp);
+	
+}
+
+
+
+void * ipservice_block_alloc(int size, void * * data, int * len)
+{
+    Block * bp;
+
+    
+    *data = NULL;
+    *len = 0;
+    bp = allocb(size);
+    if(!bp){
+        registerb(size, 100);
+        bp = allocb(size);
+       
+    }
+
+    if(bp)
+    {
+        *data = bp->rptr;
+        *len = size;
+        #ifdef BLOCKDIAG
+	
+	    bp->allocd_by = __builtin_return_address(0);      /* address of caller of freeb() */
+		#endif /* BLOCKDIAG */
+    }
+    
+    return (void *)bp;
+}

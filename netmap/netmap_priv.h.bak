@@ -1,0 +1,17 @@
+#ifndef NETMAP_PRIV_HEAD
+#define NETMAP_PRIV_HEAD
+
+
+#define MBUF_APP_EXT(mbuf)   (mbuf_app_ext *)mbuf->buf_addr
+#define MBUF_DATA(m) 		 ((char*)m->buf_addr + m->data_off)
+#define MBUF_EXT_LINK(mbuf)  ((mbuf_app_ext *)(mbuf)->buf_addr)->link_next
+#define MBUF_GETBY_APPEXT(extapp)   (struct rte_mbuf *  )
+
+
+int netmap_init();
+int netmap_start();
+int netmap_packet_conn(struct rte_mbuf * mbuf, int dir);
+
+void* netmap_forward_process(void * arg);
+
+#endif

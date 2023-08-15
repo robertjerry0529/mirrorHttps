@@ -1,0 +1,33 @@
+
+root = ..
+include ${root}/Makefile.inc
+
+
+CPPFLAGS += -I./ -I${root}/include 
+
+
+
+OSLIBS = 
+ 
+TARG	= conn
+SRCS	=  \
+	conn.c
+
+
+
+OBJS	= $(SRCS:.c=.o)
+
+.PHONY:	all
+all:	${TARG}
+
+.PHONY:	clean
+clean:
+	rm -f *.o ${TARG} *.lob *.err *.lint *.d 
+
+${TARG}:${OBJS}
+	${LD} -r -o $@ ${OBJS}  
+
+	
+	
+
+-include $(SRCS:.c=.d)
