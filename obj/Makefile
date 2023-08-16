@@ -15,7 +15,7 @@ endif
 CPPFLAGS +=  -I${root}/init   -I${root}/include
 
 
-TARG	= plainssl
+TARG	= mirrorHttps
 BLOCKS	=  \
 	${root}/init/init \
 	${root}/conn/conn \
